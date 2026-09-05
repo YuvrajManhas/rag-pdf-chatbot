@@ -26,10 +26,13 @@ st.set_page_config(
 
 load_dotenv()
 
-api_key = os.getenv("GEMINI_API_KEY")
+if "GEMINI_API_KEY" in st.secrets:
+    api_key = st.secrets["GEMINI_API_KEY"]
+else:
+    api_key = os.getenv("GEMINI_API_KEY")
 
 if not api_key:
-    st.error("GEMINI_API_KEY not found in .env file.")
+    st.error("Gemini API key not found.")
     st.stop()
 
 client = genai.Client(
